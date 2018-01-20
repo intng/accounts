@@ -5,13 +5,13 @@ import json, uuid
 def create(name, surname, form, schoolcard=None, vk_id=None, tg_id=None):
     if vk_id != None:
         if users.find_by_vk_id(vk_id):
-            return json.dumps({'success': False, 'description': 'User already exist.'})
+            return json.dumps({'success': False, 'description': 'User already exists.'})
     if tg_id != None:
         if users.find_by_tg_id(tg_id):
-            return json.dumps({'success': False, 'description': 'User already exist.'})
+            return json.dumps({'success': False, 'description': 'User already exists.'})
     if schoolcard != None:
         if users.find_by_schoolcard(schoolcard):
-            return json.dumps({'success': False, 'description': 'User already exist.'})
+            return json.dumps({'success': False, 'description': 'User already exists.'})
     approved = True  # Нужна база карт
     """
     Здесь нужно осуществлять проверку валидности карты. Сейчас валидируем всех подряд
@@ -28,23 +28,23 @@ def create(name, surname, form, schoolcard=None, vk_id=None, tg_id=None):
 
 def check_vk_id(vk_id):
     if users.find_by_vk_id(vk_id):
-        return json.dumps({'exist': True})
+        return json.dumps({'exists': True})
     else:
-        return json.dumps({'exist': False})
+        return json.dumps({'exists': False})
 
 
 def check_tg_id(tg_id):
     if users.find_by_tg_id(tg_id):
-        return json.dumps({'exist': True})
+        return json.dumps({'exists': True})
     else:
-        return json.dumps({'exist': False})
+        return json.dumps({'exists': False})
 
 
 def check_schoolcard(schoolcard):
     if users.find_by_schoolcard(schoolcard):
-        return json.dumps({'exist': True})
+        return json.dumps({'exists': True})
     else:
-        return json.dumps({'exist': False})
+        return json.dumps({'exists': False})
 
 
 def update_account(id, name, surname, schoolcard, approved, form, vk_id, tg_id, access):
