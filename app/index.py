@@ -1,11 +1,11 @@
 from flask import Flask, request
-import os
-from app.api import users
+import os, json
+from app.api import users, logins
 
 app = Flask(__name__)
 
 
-@app.route('/api/v1/users/create/', methods=['POST'])
+@app.route('/api/v1/users/create', methods=['POST'])
 def create_user():
     res = request.get_json()
     if 'schoolcard' not in res: res['schoolcard'] = None
@@ -33,8 +33,27 @@ def check_schoolcard(schoolcard):
 def update_user():
     res = request.get_json()
     return users.update_account(res['id'], res['name'], res['surname'], res['schoolcard'], res['approved'], res['form'],
-                         res['vk_id'], res['tg_id'], res['access'])
+                                res['vk_id'], res['tg_id'], res['access'])
 
+
+@app.route('/api/v1/logins/create_token/<auth_token>', methods=['GET'])
+def create_token(auth_token):
+    return logins.create_token(auth_token)
+
+
+@app.route('/api/v1/logins/check_token', methods=['POST'])
+def check_token():
+    res = request.get_json()
+    if 'token' not in res: return json.dumps({'success': False, 'description': 'No token'})
+    return logins.check_token(res['token'])
+
+
+@app.route('/api/v1/logins/create_auth_token', methods=['POST'])
+def create_auth_token():
+    res = request.get_json()
+    if 'vk_id' not in res: res['vk_id'] = None
+    if 'tg_id' not in res: res['tg_id'] = None
+    return logins.create_auth_token(res['vk_id'], res['tg_id'])
 
 
 if __name__ == '__main__':

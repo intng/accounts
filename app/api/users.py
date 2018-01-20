@@ -55,3 +55,4 @@ def update_account(id, name, surname, schoolcard, approved, form, vk_id, tg_id, 
              'user': {'id': user[0], 'name': user[1], 'surname': user[2],
                       'schoolcard': user[3], 'approved': user[4],
                       'form': user[5], 'vk_id': user[6], 'tg_id': user[7], 'access': user[8]}})
+

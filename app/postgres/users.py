@@ -44,6 +44,7 @@ def find_by_schoolcard(schoolcard):
             else:
                 return False
 
+
 def find_by_id(id):
     with psycopg2.connect(database=database, user=username, password=password, host=hostname) as conn:
         with conn.cursor() as cur:
@@ -72,3 +73,4 @@ def update(id, name, surname, schoolcard, approved, form, vk_id, tg_id, access):
             cur.execute(update, (name, surname, schoolcard, approved, form, vk_id, tg_id, access, id))
             conn.commit()
             return True
+
