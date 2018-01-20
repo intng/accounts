@@ -22,3 +22,24 @@ def create(name, surname, form, schoolcard=None, vk_id=None, tg_id=None):
             {'success': True,
              'user': {'id': id, 'name': name, 'surname': surname, 'schoolcard': schoolcard, 'approved': approved,
                       'form': form, 'vk_id': vk_id, 'tg_id': tg_id}})
+
+
+def check_vk_id(vk_id):
+    if users.find_by_vk_id(vk_id):
+        return json.dumps({'exist': True})
+    else:
+        return json.dumps({'exist': False})
+
+
+def check_tg_id(tg_id):
+    if users.find_by_tg_id(tg_id):
+        return json.dumps({'exist': True})
+    else:
+        return json.dumps({'exist': False})
+
+
+def check_schoolcard(schoolcard):
+    if users.find_by_schoolcard(schoolcard):
+        return json.dumps({'exist': True})
+    else:
+        return json.dumps({'exist': False})
