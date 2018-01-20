@@ -44,11 +44,31 @@ def find_by_schoolcard(schoolcard):
             else:
                 return False
 
+def find_by_id(id):
+    with psycopg2.connect(database=database, user=username, password=password, host=hostname) as conn:
+        with conn.cursor() as cur:
+            select = "SELECT * FROM users WHERE id = %s"
+            cur.execute(select, (id,))
+            res = cur.fetchall()
+            if res:
+                return res[0]
+            else:
+                return False
+
 
 def create(id, name, surname, schoolcard, approved, form, vk_id, tg_id):
     with psycopg2.connect(database=database, user=username, password=password, host=hostname) as conn:
         with conn.cursor() as cur:
             insert = "INSERT INTO users (id, name, surname, schoolcard, approved, form, vk_id, tg_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
             cur.execute(insert, (id, name, surname, schoolcard, approved, form, vk_id, tg_id))
+            conn.commit()
+            return True
+
+
+def update(id, name, surname, schoolcard, approved, form, vk_id, tg_id, access):
+    with psycopg2.connect(database=database, user=username, password=password, host=hostname) as conn:
+        with conn.cursor() as cur:
+            update = "UPDATE users SET name = %s, surname = %s, schoolcard = %s, approved = %s, form = %s, vk_id = %s, tg_id = %s, access = %s WHERE id = %s"
+            cur.execute(update, (name, surname, schoolcard, approved, form, vk_id, tg_id, access, id))
             conn.commit()
             return True

@@ -18,10 +18,12 @@ def create(name, surname, form, schoolcard=None, vk_id=None, tg_id=None):
     """
     id = str(uuid.uuid4())
     if users.create(id, name, surname, schoolcard, approved, form, vk_id, tg_id):
+        user = users.find_by_id(id)
         return json.dumps(
             {'success': True,
-             'user': {'id': id, 'name': name, 'surname': surname, 'schoolcard': schoolcard, 'approved': approved,
-                      'form': form, 'vk_id': vk_id, 'tg_id': tg_id}})
+             'user': {'id': user[0], 'name': user[1], 'surname': user[2],
+                      'schoolcard': user[3], 'approved': user[4],
+                      'form': user[5], 'vk_id': user[6], 'tg_id': user[7], 'access': user[8]}})
 
 
 def check_vk_id(vk_id):
@@ -43,3 +45,13 @@ def check_schoolcard(schoolcard):
         return json.dumps({'exist': True})
     else:
         return json.dumps({'exist': False})
+
+
+def update_account(id, name, surname, schoolcard, approved, form, vk_id, tg_id, access):
+    if users.update(id, name, surname, schoolcard, approved, form, vk_id, tg_id, access):
+        user = users.find_by_id(id)
+        return json.dumps(
+            {'success': True,
+             'user': {'id': user[0], 'name': user[1], 'surname': user[2],
+                      'schoolcard': user[3], 'approved': user[4],
+                      'form': user[5], 'vk_id': user[6], 'tg_id': user[7], 'access': user[8]}})
