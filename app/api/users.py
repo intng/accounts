@@ -48,11 +48,14 @@ def check_schoolcard(schoolcard):
 
 
 def update_account(id, name, surname, schoolcard, approved, form, vk_id, tg_id, access):
-    if users.update(id, name, surname, schoolcard, approved, form, vk_id, tg_id, access):
-        user = users.find_by_id(id)
-        return json.dumps(
-            {'success': True,
-             'user': {'id': user[0], 'name': user[1], 'surname': user[2],
-                      'schoolcard': user[3], 'approved': user[4],
-                      'form': user[5], 'vk_id': user[6], 'tg_id': user[7], 'access': user[8]}})
+    if users.find_by_id(id):
+        if users.update(id, name, surname, schoolcard, approved, form, vk_id, tg_id, access):
+            user = users.find_by_id(id)
+            return json.dumps(
+                {'success': True,
+                 'user': {'id': user[0], 'name': user[1], 'surname': user[2],
+                          'schoolcard': user[3], 'approved': user[4],
+                          'form': user[5], 'vk_id': user[6], 'tg_id': user[7], 'access': user[8]}})
 
+    else:
+        return json.dumps({'success': False, 'description': 'Invalid user ID'})
